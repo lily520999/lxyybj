@@ -1,0 +1,942 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>鍏板績杩愯惀绗旇 - 绉戞妧涓庣數鍟嗙殑浜ゆ眹</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --neon-blue: #0cf;
+        --neon-purple: #c0f;
+        --neon-green: #0fc;
+        --dark-bg: #111827;
+        --darker-bg: #0a0f1a;
+        --card-bg: rgba(17, 24, 39, 0.7);
+      }
+
+      body {
+        font-family: "Noto Sans SC", sans-serif;
+        background-color: var(--darker-bg);
+        color: #e5e7eb;
+        background-image:
+          radial-gradient(
+            circle at 20% 30%,
+            rgba(12, 170, 255, 0.1) 0%,
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(192, 0, 255, 0.1) 0%,
+            transparent 30%
+          );
+        background-attachment: fixed;
+        min-height: 100vh;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Rajdhani", "Noto Sans SC", sans-serif;
+      }
+
+      .tech-card {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+
+      .tech-card:hover {
+        box-shadow: 0 0 15px rgba(12, 255, 255, 0.3);
+        transform: translateY(-3px);
+      }
+
+      .neon-border-blue {
+        border: 1px solid rgba(12, 255, 255, 0.3);
+        box-shadow: 0 0 10px rgba(12, 255, 255, 0.2);
+      }
+
+      .neon-border-purple {
+        border: 1px solid rgba(192, 0, 255, 0.3);
+        box-shadow: 0 0 10px rgba(192, 0, 255, 0.2);
+      }
+
+      .neon-border-green {
+        border: 1px solid rgba(0, 255, 192, 0.3);
+        box-shadow: 0 0 10px rgba(0, 255, 192, 0.2);
+      }
+
+      .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background: currentColor;
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover:after {
+        width: 100%;
+      }
+
+      .nav-link.active:after {
+        width: 100%;
+      }
+
+      .ai-tools {
+        color: var(--neon-blue);
+      }
+
+      .ecommerce {
+        color: var(--neon-purple);
+      }
+
+      .tutorials {
+        color: var(--neon-green);
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      /* Tech-effect for text */
+      .tech-text {
+        display: inline-block;
+        position: relative;
+        text-shadow: 0 0 5px rgba(12, 255, 255, 0.7);
+      }
+
+      /* Animated background line */
+      .animated-bg-line {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        opacity: 0.1;
+      }
+
+      .line {
+        position: absolute;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--neon-blue),
+          transparent
+        );
+        height: 1px;
+        width: 100%;
+        animation: line-move 15s infinite linear;
+      }
+
+      .line:nth-child(1) {
+        top: 20%;
+        animation-duration: 15s;
+        animation-delay: 0s;
+      }
+
+      .line:nth-child(2) {
+        top: 50%;
+        animation-duration: 20s;
+        animation-delay: 5s;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--neon-purple),
+          transparent
+        );
+      }
+
+      .line:nth-child(3) {
+        top: 80%;
+        animation-duration: 25s;
+        animation-delay: 2s;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--neon-green),
+          transparent
+        );
+      }
+
+      @keyframes line-move {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Animation for tech feeling */
+      @keyframes pulse {
+        0% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.8;
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite ease-in-out;
+      }
+
+      /* 涓嬫媺鑿滃崟鏍峰紡 */
+      .group:hover .group-hover\:block {
+        display: block;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <!-- Animated Background Lines -->
+    <div class="animated-bg-line">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="w-full py-4 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
+      <div class="container mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="flex items-center mb-4 md:mb-0">
+            <div class="text-3xl font-bold tech-text">
+              <span class="text-white">鍏板績</span>
+              <span class="ai-tools pulse">杩愯惀</span>
+              <span class="text-white">绗旇</span>
+            </div>
+          </div>
+          <nav
+            class="flex flex-wrap space-x-4 md:space-x-6 text-sm md:text-base"
+          >
+            <a href="index.html" class="nav-link active text-white">棣栭〉</a>
+            <div class="group relative">
+              <a href="#ai-tools" class="nav-link ai-tools flex items-center">
+                AI宸ュ叿
+                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </a>
+              <div
+                class="absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50"
+              >
+                <div class="py-1 grid grid-cols-1">
+                  <a
+                    href="ai-audio-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI闊抽宸ュ叿</a
+                  >
+                  <a
+                    href="ai-writing-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI鍐欎綔宸ュ叿</a
+                  >
+                  <a
+                    href="ai-image-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI鍥惧儚宸ュ叿</a
+                  >
+                  <a
+                    href="ai-video-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI瑙嗛宸ュ叿</a
+                  >
+                  <a
+                    href="ai-office-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI鍔炲叕宸ュ叿</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI璁捐宸ュ叿</a
+                  >
+                  <a
+                    href="ai-office-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI瀵硅瘽鑱婂ぉ</a
+                  >
+                  <a
+                    href="ai-office-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI缂栫▼宸ュ叿</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI鎼滅储寮曟搸</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="group relative">
+              <a href="#ecommerce" class="nav-link ecommerce flex items-center">
+                璺ㄥ鐢靛晢
+                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </a>
+              <div
+                class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50"
+              >
+                <div class="py-1">
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >鐢靛晢骞冲彴</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >鐗╂祦瑙ｅ喅鏂规</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >鏀粯绯荤粺</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >钀ラ攢鎺ㄥ箍</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="group relative">
+              <a href="#tutorials" class="nav-link tutorials flex items-center">
+                瑙嗛鏁欑▼
+                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </a>
+              <div
+                class="absolute left-0 mt-2 w-36 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50"
+              >
+                <div class="py-1">
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >鍏ラ棬鏁欑▼</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >杩涢樁鏁欑▼</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >妗堜緥鍒嗘瀽</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="relative">
+              <a href="#" class="nav-link text-white flex items-center">
+                <i class="fas fa-search"></i>
+              </a>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Hero -->
+      <div
+        class="tech-card rounded-lg p-6 md:p-10 text-center mb-8 neon-border-blue"
+      >
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          <span class="text-white">鎺㈢储</span>
+          <span class="ai-tools">AI</span>
+          <span class="text-white">涓?/span>
+          <span class="ecommerce">鐢靛晢</span>
+          <span class="text-white">鐨勬湭鏉?/span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-8">
+          璁板綍鍓嶆部绉戞妧涓庤法澧冪數鍟嗙殑瀹炴垬缁忛獙
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href="#ai-tools"
+            class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-3 px-6 rounded-md hover:opacity-90 transition duration-300"
+          >
+            鎺㈢储AI宸ュ叿
+          </a>
+          <a
+            href="#ecommerce"
+            class="bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold py-3 px-6 rounded-md hover:opacity-90 transition duration-300"
+          >
+            璺ㄥ鐢靛晢鏀荤暐
+          </a>
+          <a
+            href="#tutorials"
+            class="bg-gradient-to-r from-green-400 to-cyan-500 text-white font-bold py-3 px-6 rounded-md hover:opacity-90 transition duration-300"
+          >
+            瑙傜湅瑙嗛鏁欑▼
+          </a>
+        </div>
+      </div>
+
+      <!-- 鎼滅储妗?-->
+      <div class="tech-card rounded-lg p-6 mb-10">
+        <div class="max-w-2xl mx-auto">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="鎼滅储AI宸ュ叿銆佺數鍟嗗钩鍙般€佹暀绋?.."
+              class="w-full bg-gray-800 border border-gray-700 text-white py-3 px-5 pr-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <button
+              class="absolute right-3 top-3 text-gray-400 hover:text-white"
+            >
+              <i class="fas fa-search text-xl"></i>
+            </button>
+          </div>
+          <div class="mt-4">
+            <p class="text-gray-400 mb-2 text-sm">鐑棬鎼滅储:</p>
+            <div class="flex flex-wrap gap-2">
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >AI鍐欎綔宸ュ叿</a
+              >
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >AI鍥惧儚鐢熸垚</a
+              >
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >AI鑱婂ぉ鏈哄櫒浜?/a
+              >
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >浜氶┈閫婅繍钀?/a
+              >
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >AI鍏ラ棬鏁欑▼</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Tools Section -->
+      <section id="ai-tools" class="mb-16">
+        <h2 class="text-3xl font-bold mb-8">
+          <span class="ai-tools">AI</span>
+          <span class="text-white">宸ュ叿</span>
+        </h2>
+
+        <div class="mb-8">
+          <div class="tech-card rounded-lg p-6 neon-border-blue">
+            <p class="text-lg mb-4">
+              鎺㈢储鍓嶆部AI宸ュ叿锛屾彁鍗囧垱浣溿€佸垎鏋愬拰鑷姩鍖栬兘鍔涖€備粠鍐呭鐢熸垚鍒版暟鎹礊瀵燂紝杩欓噷鏄疉I鐖卞ソ鑰呯殑涔愬洯銆?            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#澶ц瑷€妯″瀷</span
+              >
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#AI缁樼敾</span
+              >
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#璇煶鍚堟垚</span
+              >
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#鑷姩鍖栧伐鍏?/span
+              >
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#鏁版嵁鍒嗘瀽</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- 鐑棬AI宸ュ叿鍒嗙被 -->
+        <div class="categories-grid mb-8">
+          <h3 class="text-2xl font-bold mb-4">
+            <span class="ai-tools">鐑棬宸ュ叿</span>
+            <span class="text-white">鍒嗙被</span>
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- AI鍐欎綔宸ュ叿 -->
+            <a
+              href="ai-writing-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-pen-fancy"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI鍐欎綔宸ュ叿</h4>
+                <p class="text-sm text-gray-400">鎻愬崌鍐呭鍒涗綔鏁堢巼涓庤川閲?/p>
+              </div>
+            </a>
+
+            <!-- AI鍥惧儚宸ュ叿 -->
+            <a
+              href="ai-image-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-image"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI鍥惧儚宸ュ叿</h4>
+                <p class="text-sm text-gray-400">鏂囨湰鐢熸垚鍥惧儚鍙婂浘鍍忕紪杈?/p>
+              </div>
+            </a>
+
+            <!-- AI瑙嗛宸ュ叿 -->
+            <a
+              href="ai-video-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-video"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI瑙嗛宸ュ叿</h4>
+                <p class="text-sm text-gray-400">鏅鸿兘瑙嗛鍒涗綔涓庣紪杈戝伐鍏?/p>
+              </div>
+            </a>
+
+            <!-- AI闊抽宸ュ叿 -->
+            <a
+              href="ai-audio-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-microphone-alt"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI闊抽宸ュ叿</h4>
+                <p class="text-sm text-gray-400">璇煶鍚堟垚涓庨煶棰戝鐞嗗伐鍏?/p>
+              </div>
+            </a>
+
+            <!-- AI鍔炲叕宸ュ叿 -->
+            <a
+              href="ai-office-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-briefcase"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI鍔炲叕宸ュ叿</h4>
+                <p class="text-sm text-gray-400">鎻愬崌鍔炲叕鏁堢巼鐨勬櫤鑳藉伐鍏?/p>
+              </div>
+            </a>
+
+            <!-- AI璁捐宸ュ叿 -->
+            <a
+              href="#"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-palette"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI璁捐宸ュ叿</h4>
+                <p class="text-sm text-gray-400">闈╂柊璁捐娴佺▼鐨勬櫤鑳藉伐鍏?/p>
+              </div>
+            </a>
+
+            <!-- AI瀵硅瘽鑱婂ぉ -->
+            <a
+              href="#"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-comments"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI瀵硅瘽鑱婂ぉ</h4>
+                <p class="text-sm text-gray-400">鏅鸿兘瀵硅瘽鍜岃亰澶╂満鍣ㄤ汉</p>
+              </div>
+            </a>
+
+            <!-- AI缂栫▼宸ュ叿 -->
+            <a
+              href="#"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-code"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI缂栫▼宸ュ叿</h4>
+                <p class="text-sm text-gray-400">鍔犻€熶唬鐮佸紑鍙戠殑鏅鸿兘宸ュ叿</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- 绮鹃€夊伐鍏锋帹鑽?-->
+        <h3 class="text-2xl font-bold mb-4">
+          <span class="ai-tools">绮鹃€夊伐鍏?/span>
+          <span class="text-white">鎺ㄨ崘</span>
+        </h3>
+
+        <div class="grid-container">
+          <!-- AI Audio Tools Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-blue-400">
+                <i class="fas fa-microphone-alt"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ai-tools mr-2">AI宸ュ叿</span>
+                <span class="text-gray-400">路 鍚堥泦</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">AI闊抽宸ュ叿鍚堥泦</h3>
+              <p class="text-gray-300 mb-4">
+                鎺㈢储椤剁骇AI璇煶鐢熸垚鍜岄煶棰戝鐞嗗伐鍏凤紝鎻愬崌鎮ㄧ殑闊抽鍐呭鍒涗綔鏁堢巼鍜岃川閲?..
+              </p>
+              <a
+                href="ai-audio-tools.html"
+                class="inline-block ai-tools hover:underline"
+                >鏌ョ湅鍚堥泦 鈫?/a
+              >
+            </div>
+          </div>
+
+          <!-- AI Image Tools Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-blue-400">
+                <i class="fas fa-image"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ai-tools mr-2">AI宸ュ叿</span>
+                <span class="text-gray-400">路 鍚堥泦</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">AI鍥惧儚鐢熸垚宸ュ叿</h3>
+              <p class="text-gray-300 mb-4">
+                鏈€寮哄ぇ鐨凙I鍥惧儚鐢熸垚鍜岀紪杈戝伐鍏凤紝杞绘澗鍒涘缓鍚勭楂樿川閲忚瑙夊唴瀹?..
+              </p>
+              <a href="#" class="inline-block ai-tools hover:underline"
+                >鍗冲皢鎺ㄥ嚭 鈫?/a
+              >
+            </div>
+          </div>
+
+          <!-- LLM Tools Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-blue-400">
+                <i class="fas fa-robot"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ai-tools mr-2">AI宸ュ叿</span>
+                <span class="text-gray-400">路 鍚堥泦</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">澶ц瑷€妯″瀷宸ュ叿</h3>
+              <p class="text-gray-300 mb-4">
+                鏈€鍏堣繘鐨勫ぇ璇█妯″瀷鍜屾枃鏈敓鎴愬伐鍏凤紝鐢ㄤ簬鍐呭鍒涗綔銆佸垎鏋愬拰瀵硅瘽...
+              </p>
+              <a href="#" class="inline-block ai-tools hover:underline"
+                >鍗冲皢鎺ㄥ嚭 鈫?/a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- E-commerce Section -->
+      <section id="ecommerce" class="mb-16">
+        <h2 class="text-3xl font-bold mb-8">
+          <span class="ecommerce">璺ㄥ</span>
+          <span class="text-white">鐢靛晢</span>
+        </h2>
+
+        <div class="mb-8">
+          <div class="tech-card rounded-lg p-6 neon-border-purple">
+            <p class="text-lg mb-4">
+              鍒嗕韩璺ㄥ鐢靛晢鏈€鏂拌秼鍔裤€佸钩鍙版敾鐣ュ拰钀ラ攢绛栫暐銆備粠浜氶┈閫婂埌TikTok
+              Shop锛屾帉鎻″叏鐞冪數鍟嗗競鍦虹殑鑷磋儨涔嬮亾銆?            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#浜氶┈閫?/span
+              >
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#Shopify</span
+              >
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#TikTok Shop</span
+              >
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#鐙珛绔?/span
+              >
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#鐗╂祦渚涘簲閾?/span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <!-- Platform Guides Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-purple-400">
+                <i class="fab fa-amazon"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ecommerce mr-2">璺ㄥ鐢靛晢</span>
+                <span class="text-gray-400">路 鍚堥泦</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">鐢靛晢骞冲彴鏀荤暐</h3>
+              <p class="text-gray-300 mb-4">
+                浜氶┈閫娿€丼hopify銆乀ikTok Shop绛夊钩鍙扮殑璇︾粏杩愯惀鎸囧崡...
+              </p>
+              <a href="#" class="inline-block ecommerce hover:underline"
+                >鍗冲皢鎺ㄥ嚭 鈫?/a
+              >
+            </div>
+          </div>
+
+          <!-- Marketing Strategies Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-purple-400">
+                <i class="fas fa-bullhorn"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ecommerce mr-2">璺ㄥ鐢靛晢</span>
+                <span class="text-gray-400">路 鍚堥泦</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">璺ㄥ钀ラ攢绛栫暐</h3>
+              <p class="text-gray-300 mb-4">
+                绀句氦濯掍綋钀ラ攢銆佸唴瀹硅惀閿€銆佷粯璐瑰箍鍛婄瓑澶氭笭閬撹惀閿€绛栫暐...
+              </p>
+              <a href="#" class="inline-block ecommerce hover:underline"
+                >鍗冲皢鎺ㄥ嚭 鈫?/a
+              >
+            </div>
+          </div>
+
+          <!-- Logistics and Supply Chain Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-purple-400">
+                <i class="fas fa-shipping-fast"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ecommerce mr-2">璺ㄥ鐢靛晢</span>
+                <span class="text-gray-400">路 鍚堥泦</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">鐗╂祦涓庝緵搴旈摼</h3>
+              <p class="text-gray-300 mb-4">
+                璺ㄥ鐗╂祦绛栫暐銆佷緵搴旈摼浼樺寲銆佸簱瀛樼鐞嗘渶浣冲疄璺?..
+              </p>
+              <a href="#" class="inline-block ecommerce hover:underline"
+                >鍗冲皢鎺ㄥ嚭 鈫?/a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tutorials Section -->
+      <section id="tutorials" class="mb-16">
+        <h2 class="text-3xl font-bold mb-8">
+          <span class="tutorials">瑙嗛</span>
+          <span class="text-white">鏁欑▼</span>
+        </h2>
+
+        <div class="mb-8">
+          <div class="tech-card rounded-lg p-6 neon-border-green">
+            <p class="text-lg mb-4">
+              閫氳繃璇︾粏鐨勮棰戞暀绋嬶紝鎺屾彙AI宸ュ叿鍜岃法澧冪數鍟嗗疄鎿嶆妧鑳姐€備粠鍏ラ棬鍒扮簿閫氾紝姣忎釜瑙嗛閮芥槸瑙ｅ喅瀹為檯闂鐨勯挜鍖欍€?            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#宸ュ叿鏁欑▼</span
+              >
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#杩愯惀鎶€宸?/span
+              >
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#钀ラ攢绛栫暐</span
+              >
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#瀹炴垬妗堜緥</span
+              >
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#鏁版嵁鍒嗘瀽</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <!-- AI Tools Tutorials Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div
+              class="h-48 bg-gray-700 flex items-center justify-center relative"
+            >
+              <span class="text-5xl text-green-400">
+                <i class="fas fa-play-circle"></i>
+              </span>
+              <div
+                class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs"
+              >
+                绯诲垪
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="tutorials mr-2">瑙嗛鏁欑▼</span>
+                <span class="text-gray-400">路 鍚堥泦</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">AI宸ュ叿瀹炴垬鏁欑▼</h3>
+              <p class="text-gray-300 mb-4">
+                璇︾粏婕旂ず濡備綍浣跨敤鍚勭AI宸ュ叿鎻愬崌宸ヤ綔鏁堢巼鍜屽唴瀹硅川閲?..
+              </p>
+              <a href="#" class="inline-block tutorials hover:underline"
+                >鍗冲皢鎺ㄥ嚭 鈫?/a
+              >
+            </div>
+          </div>
+
+          <!-- E-commerce Platform Tutorials Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div
+              class="h-48 bg-gray-700 flex items-center justify-center relative"
+            >
+              <span class="text-5xl text-green-400">
+                <i class="fas fa-play-circle"></i>
+              </span>
+              <div
+                class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs"
+              >
+                绯诲垪
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="tutorials mr-2">瑙嗛鏁欑▼</span>
+                <span class="text-gray-400">路 鍚堥泦</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">鐢靛晢骞冲彴鍏ラ棬涓庤繘闃?/h3>
+              <p class="text-gray-300 mb-4">
+                浜氶┈閫娿€乀ikTok Shop绛夊钩鍙版搷浣滄寚鍗楀拰浼樺寲鎶€宸?..
+              </p>
+              <a href="#" class="inline-block tutorials hover:underline"
+                >鍗冲皢鎺ㄥ嚭 鈫?/a
+              >
+            </div>
+          </div>
+
+          <!-- Marketing Case Studies Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div
+              class="h-48 bg-gray-700 flex items-center justify-center relative"
+            >
+              <span class="text-5xl text-green-400">
+                <i class="fas fa-play-circle"></i>
+              </span>
+              <div
+                class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs"
+              >
+                绯诲垪
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="tutorials mr-2">瑙嗛鏁欑▼</span>
+                <span class="text-gray-400">路 鍚堥泦</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">钀ラ攢妗堜緥瑙ｆ瀽</h3>
+              <p class="text-gray-300 mb-4">
+                鍒嗘瀽鎴愬姛璺ㄥ鐢靛晢钀ラ攢妗堜緥锛屾媶瑙ｅ叧閿瓥鐣ュ拰鎵ц缁嗚妭...
+              </p>
+              <a href="#" class="inline-block tutorials hover:underline"
+                >鍗冲皢鎺ㄥ嚭 鈫?/a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-8 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+      <div class="container mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <div class="text-2xl font-bold tech-text mb-2">
+              <span class="text-white">鍏板績</span>
+              <span class="ai-tools">杩愯惀</span>
+              <span class="text-white">绗旇</span>
+            </div>
+            <p class="text-gray-400 text-sm">鎺㈢储AI涓庣數鍟嗙殑鏈潵</p>
+          </div>
+          <div class="text-center md:text-right">
+            <p class="text-gray-400 text-sm">
+              &copy; 2023 鍏板績杩愯惀绗旇. 淇濈暀鎵€鏈夋潈鍒?            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

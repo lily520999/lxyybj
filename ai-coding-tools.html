@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI编程工具大全 - 兰心运营笔记</title>
+    <meta name="description" content="最全面的AI编程和开发工具清单，提升您的编程效率和代码质量。">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #0cf;
+            --neon-purple: #c0f;
+            --neon-green: #0fc;
+            --dark-bg: #111827;
+            --darker-bg: #0a0f1a;
+            --card-bg: rgba(17, 24, 39, 0.7);
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--darker-bg);
+            color: #e5e7eb;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(12, 170, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(192, 0, 255, 0.1) 0%, transparent 30%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+        }
+        
+        .tool-section {
+            padding: 2rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neon-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-header p {
+            color: #e5e7eb;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .tool-card {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(12, 255, 255, 0.2);
+        }
+        
+        .tool-card:hover::after {
+            opacity: 1;
+        }
+        
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tool-logo {
+            height: 130px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.25rem;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card:hover .tool-logo {
+            background-color: rgba(255, 255, 255, 0.07);
+        }
+        
+        .tool-logo img {
+            max-height: 80%;
+            max-width: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-card:hover .tool-logo img {
+            transform: scale(1.05);
+        }
+        
+        .tool-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .tool-name {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 0.9rem;
+            color: var(--neon-blue);
+            font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
+        .tool-description {
+            margin-bottom: 1.75rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            flex-grow: 1;
+            font-size: 0.95rem;
+        }
+        
+        .tool-link {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--neon-blue), #0077cc);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 119, 204, 0.3);
+        }
+        
+        .tool-link:hover {
+            background: linear-gradient(90deg, #0077cc, var(--neon-blue));
+            box-shadow: 0 4px 12px rgba(0, 119, 204, 0.5);
+        }
+        
+        .tool-link::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .tool-link:hover::after {
+            opacity: 1;
+        }
+        
+        /* 导航相关样式 */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .nav-link.active:after {
+            width: 100%;
+        }
+        
+        /* 下拉菜单 */
+        .group:hover .group-hover\:block {
+            display: block;
+        }
+        
+        /* 卡片样式 */
+        .tech-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            box-shadow: 0 0 15px rgba(12, 255, 255, 0.3);
+        }
+        
+        /* 文字特效 */
+        .tech-text {
+            display: inline-block;
+            position: relative;
+            text-shadow: 0 0 5px rgba(12, 255, 255, 0.7);
+        }
+        
+        /* 动画效果 */
+        @keyframes pulse {
+            0% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.8;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        /* 自适应设计 */
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.25rem;
+            }
+            
+            .tool-logo {
+                height: 110px;
+            }
+            
+            .tool-name {
+                font-size: 1.25rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .tool-logo {
+                height: 100px;
+            }
+            
+            .tool-content {
+                padding: 1.25rem;
+            }
+        }
+        
+        /* 页面布局 */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        /* 面包屑导航 */
+        .breadcrumbs {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .breadcrumbs a {
+            color: #3182ce;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .breadcrumbs a:hover {
+            color: #2c5282;
+            text-decoration: underline;
+        }
+        
+        /* 页面标题样式 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .animate-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #3182ce, #00b5d8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+        
+        .header-underline {
+            height: 3px;
+            width: 120px;
+            background: linear-gradient(90deg, #3182ce, #00b5d8);
+            margin: 0 auto 1.5rem;
+            animation: widen 1.2s ease-out;
+        }
+        
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes widen {
+            from {
+                width: 0;
+            }
+            to {
+                width: 120px;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .tool-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-2">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold text-blue-600">兰心运营笔记</a>
+                
+                <!-- 桌面菜单 -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition">首页</a>
+                    <a href="ai-design-tools.html" class="text-gray-700 hover:text-blue-600 transition">AI设计工具</a>
+                    <a href="ai-coding-tools.html" class="text-blue-600 font-medium">AI编程工具</a>
+                    <a href="ai-chatbot-tools.html" class="text-gray-700 hover:text-blue-600 transition">AI聊天工具</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 transition">关于</a>
+                </div>
+                
+                <!-- 移动菜单按钮 -->
+                <button id="menu-toggle" class="md:hidden text-gray-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 移动导航菜单 -->
+    <div id="mobile-menu" class="fixed inset-0 bg-gray-800 bg-opacity-95 z-50 hidden flex-col justify-center items-center md:hidden">
+        <button id="close-menu" class="absolute top-4 right-4 text-white focus:outline-none">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <div class="flex flex-col space-y-6 text-center">
+            <a href="index.html" class="text-white text-xl hover:text-blue-300 transition">首页</a>
+            <a href="ai-design-tools.html" class="text-white text-xl hover:text-blue-300 transition">AI设计工具</a>
+            <a href="ai-coding-tools.html" class="text-blue-300 text-xl font-medium">AI编程工具</a>
+            <a href="ai-chatbot-tools.html" class="text-white text-xl hover:text-blue-300 transition">AI聊天工具</a>
+            <a href="about.html" class="text-white text-xl hover:text-blue-300 transition">关于</a>
+        </div>
+    </div>
+    
+    <!-- 头部 -->
+    <header class="header-gradient text-white py-12 md:py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 animate-title">AI编程工具大全</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">
+                发现最前沿的AI编程助手，提升您的开发效率，编写更优质的代码
+            </p>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex items-center text-sm text-gray-400">
+            <a href="index.html" class="hover:text-white">首页</a>
+            <span class="mx-2">/</span>
+            <a href="index.html#ai-tools" class="hover:text-white">AI工具</a>
+            <span class="mx-2">/</span>
+            <span style="color: var(--neon-blue);">AI编程工具</span>
+        </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <section class="mb-12">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4 animate-title">精选AI编程工具</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    这些工具利用人工智能技术帮助开发者提高编程效率，编写更优质的代码，解决复杂问题
+                </p>
+            </div>
+            
+            <!-- 工具卡片网格 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- GitHub Copilot -->
+                <div class="tool-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl">
+                    <div class="tool-logo bg-gray-50 flex items-center justify-center h-48">
+                        <img src="https://github.githubassets.com/images/modules/site/copilot/copilot.png" alt="GitHub Copilot" class="max-h-32 max-w-[80%] object-contain">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">GitHub Copilot</h3>
+                            <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">代码助手</div>
+                        </div>
+                        <p class="text-gray-600 mb-4">由OpenAI的Codex提供支持的AI编程助手，能够理解自然语言并生成代码片段，实现编程自动完成和代码建议功能。</p>
+                        <a href="https://github.com/features/copilot" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center" target="_blank">
+                            了解更多
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cursor -->
+                <div class="tool-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl">
+                    <div class="tool-logo bg-gray-50 flex items-center justify-center h-48">
+                        <img src="https://cursor.sh/apple-touch-icon.png" alt="Cursor" class="max-h-32 max-w-[80%] object-contain">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Cursor</h3>
+                            <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">代码编辑器</div>
+                        </div>
+                        <p class="text-gray-600 mb-4">基于AI的代码编辑器，集成了强大的人工智能功能，帮助开发者更快地编写代码、理解代码库和解决编程问题。</p>
+                        <a href="https://cursor.sh/" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center" target="_blank">
+                            了解更多
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CodeWhisperer -->
+                <div class="tool-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl">
+                    <div class="tool-logo bg-gray-50 flex items-center justify-center h-48">
+                        <img src="https://d1.awsstatic.com/product-marketing/Codewhisperer/Amazon-CodeWhisperer-Logo.d874439baecc1fd5100914f53f940749a2d4621d.png" alt="CodeWhisperer" class="max-h-32 max-w-[80%] object-contain">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">CodeWhisperer</h3>
+                            <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">代码生成</div>
+                        </div>
+                        <p class="text-gray-600 mb-4">亚马逊推出的AI编程助手，支持多种编程语言和开发环境，能够根据注释和已有代码生成功能完整的代码建议。</p>
+                        <a href="https://aws.amazon.com/cn/codewhisperer/" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center" target="_blank">
+                            了解更多
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tabnine -->
+                <div class="tool-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl">
+                    <div class="tool-logo bg-gray-50 flex items-center justify-center h-48">
+                        <img src="https://www.tabnine.com/icons/icon-192x192.png" alt="Tabnine" class="max-h-32 max-w-[80%] object-contain">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Tabnine</h3>
+                            <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">代码补全</div>
+                        </div>
+                        <p class="text-gray-600 mb-4">深度学习驱动的代码补全工具，可以学习您的编码风格，提供个性化的代码建议，支持多种编程语言和开发环境。</p>
+                        <a href="https://www.tabnine.com/" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center" target="_blank">
+                            了解更多
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Replit AI -->
+                <div class="tool-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl">
+                    <div class="tool-logo bg-gray-50 flex items-center justify-center h-48">
+                        <img src="https://replit.com/public/icons/favicon-192.png" alt="Replit AI" class="max-h-32 max-w-[80%] object-contain">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Replit AI</h3>
+                            <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">开发环境</div>
+                        </div>
+                        <p class="text-gray-600 mb-4">集成AI功能的在线开发环境，提供代码补全、代码解释和调试建议，帮助开发者更快地构建和调试应用程序。</p>
+                        <a href="https://replit.com/site/ai" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center" target="_blank">
+                            了解更多
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CodeGeeX -->
+                <div class="tool-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl">
+                    <div class="tool-logo bg-gray-50 flex items-center justify-center h-48">
+                        <img src="https://codegeex.ai/codegeex_light.png" alt="CodeGeeX" class="max-h-32 max-w-[80%] object-contain">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">CodeGeeX</h3>
+                            <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">代码生成</div>
+                        </div>
+                        <p class="text-gray-600 mb-4">开源的多语言代码生成模型，支持多种编程语言的代码生成、代码翻译和代码解释，提供VSCode和JetBrains插件。</p>
+                        <a href="https://codegeex.ai/" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center" target="_blank">
+                            了解更多
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Codeium -->
+                <div class="tool-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl">
+                    <div class="tool-logo bg-gray-50 flex items-center justify-center h-48">
+                        <img src="https://codeium.com/favicon.ico" alt="Codeium" class="max-h-32 max-w-[80%] object-contain">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Codeium</h3>
+                            <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">代码补全</div>
+                        </div>
+                        <p class="text-gray-600 mb-4">免费的AI代码补全工具，支持多种IDE和编辑器，提供代码建议、代码生成和代码解释功能，可提高编程效率。</p>
+                        <a href="https://codeium.com/" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center" target="_blank">
+                            了解更多
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- AlphaCode -->
+                <div class="tool-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl">
+                    <div class="tool-logo bg-gray-50 flex items-center justify-center h-48">
+                        <img src="https://storage.googleapis.com/deepmind-media/AlphaCode/AlphaCode_1.jpg" alt="AlphaCode" class="max-h-32 max-w-[80%] object-contain">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">AlphaCode</h3>
+                            <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">竞赛编程</div>
+                        </div>
+                        <p class="text-gray-600 mb-4">由DeepMind开发的AI编程系统，能够解决复杂的竞赛级编程问题，理解问题描述并生成解决方案。</p>
+                        <a href="https://alphacode.deepmind.com/" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center" target="_blank">
+                            了解更多
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用技巧部分 -->
+        <section class="bg-blue-50 rounded-lg p-6 md:p-8 mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 animate-title">AI编程工具使用技巧</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">提高提示效率</h3>
+                    <p class="text-gray-600 mb-4">
+                        提供清晰、具体的提示和注释可以帮助AI工具生成更准确的代码。尽量使用专业术语，
+                        包括期望的输入输出和函数行为描述。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">代码审查</h3>
+                    <p class="text-gray-600 mb-4">
+                        始终审查AI生成的代码，不要盲目接受所有建议。检查代码逻辑、安全漏洞和性能问题，
+                        确保代码符合项目的最佳实践。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">迭代改进</h3>
+                    <p class="text-gray-600 mb-4">
+                        如果AI生成的代码不完全符合需求，提供反馈并迭代改进。指出具体问题，
+                        调整提示，或要求AI解释和修改代码。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">学习机会</h3>
+                    <p class="text-gray-600 mb-4">
+                        将AI编程工具视为学习资源。分析生成的代码，了解不同的编程方法和模式，
+                        向AI询问代码解释以加深理解。
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-xl font-bold mb-4">兰心AI工具大全</h2>
+                    <p class="text-gray-400 max-w-md">
+                        为创作者和开发者提供最新、最实用的AI工具资源，助力创意和效率的提升。
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">工具导航</h3>
+                        <ul class="space-y-2">
+                            <li><a href="index.html" class="text-gray-400 hover:text-white">首页</a></li>
+                            <li><a href="ai-design-tools.html" class="text-gray-400 hover:text-white">AI设计工具</a></li>
+                            <li><a href="ai-coding-tools.html" class="text-gray-400 hover:text-white">AI编程工具</a></li>
+                            <li><a href="ai-chatbot-tools.html" class="text-gray-400 hover:text-white">AI聊天工具</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">关注我们</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white">微信公众号</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">知乎专栏</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">B站频道</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                    &copy; 2023 兰心博客. 保留所有权利.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-3 shadow-lg hidden hover:bg-blue-700 transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script>
+        // 移动导航菜单切换
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMenuBtn = document.getElementById('close-menu');
+            
+            if (menuToggle && mobileMenu && closeMenuBtn) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                closeMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('flex');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+            
+            // 添加滚动动画
+            const animateTitle = document.querySelector('.animate-title');
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            if(animateTitle) {
+                animateTitle.classList.add('show');
+            }
+            
+            // 工具卡片滚动效果
+            function checkScroll() {
+                toolCards.forEach((card, index) => {
+                    const rect = card.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight - 100;
+                    
+                    if (isVisible) {
+                        setTimeout(() => {
+                            card.classList.add('show');
+                        }, index * 100);
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', checkScroll);
+            checkScroll(); // 初始检查
+        });
+
+        // 返回顶部按钮
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 添加工具卡片动画
+        const toolCards = document.querySelectorAll('.tool-card');
+        
+        toolCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
+                card.style.transition = 'transform 0.3s ease';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html> 

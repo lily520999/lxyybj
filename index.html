@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>兰心运营笔记 - 科技与电商的交汇</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --neon-blue: #0cf;
+        --neon-purple: #c0f;
+        --neon-green: #0fc;
+        --dark-bg: #111827;
+        --darker-bg: #0a0f1a;
+        --card-bg: rgba(17, 24, 39, 0.7);
+      }
+
+      body {
+        font-family: "Noto Sans SC", sans-serif;
+        background-color: var(--darker-bg);
+        color: #e5e7eb;
+        background-image:
+          radial-gradient(
+            circle at 20% 30%,
+            rgba(12, 170, 255, 0.1) 0%,
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(192, 0, 255, 0.1) 0%,
+            transparent 30%
+          );
+        background-attachment: fixed;
+        min-height: 100vh;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Rajdhani", "Noto Sans SC", sans-serif;
+      }
+
+      .tech-card {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+
+      .tech-card:hover {
+        box-shadow: 0 0 15px rgba(12, 255, 255, 0.3);
+        transform: translateY(-3px);
+      }
+
+      .neon-border-blue {
+        border: 1px solid rgba(12, 255, 255, 0.3);
+        box-shadow: 0 0 10px rgba(12, 255, 255, 0.2);
+      }
+
+      .neon-border-purple {
+        border: 1px solid rgba(192, 0, 255, 0.3);
+        box-shadow: 0 0 10px rgba(192, 0, 255, 0.2);
+      }
+
+      .neon-border-green {
+        border: 1px solid rgba(0, 255, 192, 0.3);
+        box-shadow: 0 0 10px rgba(0, 255, 192, 0.2);
+      }
+
+      .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background: currentColor;
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover:after {
+        width: 100%;
+      }
+
+      .nav-link.active:after {
+        width: 100%;
+      }
+
+      .ai-tools {
+        color: var(--neon-blue);
+      }
+
+      .ecommerce {
+        color: var(--neon-purple);
+      }
+
+      .tutorials {
+        color: var(--neon-green);
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      /* Tech-effect for text */
+      .tech-text {
+        display: inline-block;
+        position: relative;
+        text-shadow: 0 0 5px rgba(12, 255, 255, 0.7);
+      }
+
+      /* Animated background line */
+      .animated-bg-line {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        opacity: 0.1;
+      }
+
+      .line {
+        position: absolute;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--neon-blue),
+          transparent
+        );
+        height: 1px;
+        width: 100%;
+        animation: line-move 15s infinite linear;
+      }
+
+      .line:nth-child(1) {
+        top: 20%;
+        animation-duration: 15s;
+        animation-delay: 0s;
+      }
+
+      .line:nth-child(2) {
+        top: 50%;
+        animation-duration: 20s;
+        animation-delay: 5s;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--neon-purple),
+          transparent
+        );
+      }
+
+      .line:nth-child(3) {
+        top: 80%;
+        animation-duration: 25s;
+        animation-delay: 2s;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--neon-green),
+          transparent
+        );
+      }
+
+      @keyframes line-move {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Animation for tech feeling */
+      @keyframes pulse {
+        0% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.8;
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite ease-in-out;
+      }
+
+      /* 下拉菜单样式 */
+      .group:hover .group-hover\:block {
+        display: block;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <!-- Animated Background Lines -->
+    <div class="animated-bg-line">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="w-full py-4 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
+      <div class="container mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="flex items-center mb-4 md:mb-0">
+            <div class="text-3xl font-bold tech-text">
+              <span class="text-white">兰心</span>
+              <span class="ai-tools pulse">运营</span>
+              <span class="text-white">笔记</span>
+            </div>
+          </div>
+          <nav
+            class="flex flex-wrap space-x-4 md:space-x-6 text-sm md:text-base"
+          >
+            <a href="index.html" class="nav-link active text-white">首页</a>
+            <div class="group relative">
+              <a href="#ai-tools" class="nav-link ai-tools flex items-center">
+                AI工具
+                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </a>
+              <div
+                class="absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50"
+              >
+                <div class="py-1 grid grid-cols-1">
+                  <a
+                    href="ai-audio-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI音频工具</a
+                  >
+                  <a
+                    href="ai-writing-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI写作工具</a
+                  >
+                  <a
+                    href="ai-image-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI图像工具</a
+                  >
+                  <a
+                    href="ai-video-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI视频工具</a
+                  >
+                  <a
+                    href="ai-office-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI办公工具</a
+                  >
+                  <a
+                    href="ai-design-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI设计工具</a
+                  >
+                  <a
+                    href="ai-chatbot-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI对话聊天</a
+                  >
+                  <a
+                    href="ai-coding-tools.html"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI编程工具</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >AI搜索引擎</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="group relative">
+              <a href="#ecommerce" class="nav-link ecommerce flex items-center">
+                跨境电商
+                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </a>
+              <div
+                class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50"
+              >
+                <div class="py-1">
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >电商平台</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >物流解决方案</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >支付系统</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >营销推广</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="group relative">
+              <a href="#tutorials" class="nav-link tutorials flex items-center">
+                视频教程
+                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </a>
+              <div
+                class="absolute left-0 mt-2 w-36 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50"
+              >
+                <div class="py-1">
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >入门教程</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >进阶教程</a
+                  >
+                  <a
+                    href="#"
+                    class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800"
+                    >案例分析</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="relative">
+              <a href="#" class="nav-link text-white flex items-center">
+                <i class="fas fa-search"></i>
+              </a>
+            </div>
+            <div class="relative">
+              <a href="https://t.zsxq.com/CAfds" target="_blank" class="nav-link ecommerce flex items-center font-semibold">
+                <i class="fas fa-crown mr-1"></i> 加入会员
+              </a>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Hero -->
+      <div
+        class="tech-card rounded-lg p-6 md:p-10 text-center mb-8 neon-border-blue"
+      >
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          <span class="text-white">探索</span>
+          <span class="ai-tools">AI</span>
+          <span class="text-white">与</span>
+          <span class="ecommerce">电商</span>
+          <span class="text-white">的未来</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-8">
+          记录前沿科技与跨境电商的实战经验
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href="#ai-tools"
+            class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-3 px-6 rounded-md hover:opacity-90 transition duration-300"
+          >
+            探索AI工具
+          </a>
+          <a
+            href="#ecommerce"
+            class="bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold py-3 px-6 rounded-md hover:opacity-90 transition duration-300"
+          >
+            跨境电商攻略
+          </a>
+          <a
+            href="#tutorials"
+            class="bg-gradient-to-r from-green-400 to-cyan-500 text-white font-bold py-3 px-6 rounded-md hover:opacity-90 transition duration-300"
+          >
+            观看视频教程
+          </a>
+        </div>
+      </div>
+
+      <!-- 搜索框 -->
+      <div class="tech-card rounded-lg p-6 mb-10">
+        <div class="max-w-2xl mx-auto">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="搜索AI工具、电商平台、教程..."
+              class="w-full bg-gray-800 border border-gray-700 text-white py-3 px-5 pr-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <button
+              class="absolute right-3 top-3 text-gray-400 hover:text-white"
+            >
+              <i class="fas fa-search text-xl"></i>
+            </button>
+          </div>
+          <div class="mt-4">
+            <p class="text-gray-400 mb-2 text-sm">热门搜索:</p>
+            <div class="flex flex-wrap gap-2">
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >AI写作工具</a
+              >
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >AI图像生成</a
+              >
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >AI聊天机器人</a
+              >
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >亚马逊运营</a
+              >
+              <a
+                href="#"
+                class="text-sm bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-gray-300"
+                >AI入门教程</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Tools Section -->
+      <section id="ai-tools" class="mb-16">
+        <h2 class="text-3xl font-bold mb-8">
+          <span class="ai-tools">AI</span>
+          <span class="text-white">工具</span>
+        </h2>
+
+        <div class="mb-8">
+          <div class="tech-card rounded-lg p-6 neon-border-blue">
+            <p class="text-lg mb-4">
+              探索前沿AI工具，提升创作、分析和自动化能力。从内容生成到数据洞察，这里是AI爱好者的乐园。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#大语言模型</span
+              >
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#AI绘画</span
+              >
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#语音合成</span
+              >
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#自动化工具</span
+              >
+              <span
+                class="bg-blue-900 bg-opacity-50 text-blue-300 px-3 py-1 rounded-full text-sm"
+                >#数据分析</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- 热门AI工具分类 -->
+        <div class="categories-grid mb-8">
+          <h3 class="text-2xl font-bold mb-4">
+            <span class="ai-tools">热门工具</span>
+            <span class="text-white">分类</span>
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- AI写作工具 -->
+            <a
+              href="ai-writing-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-pen-fancy"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI写作工具</h4>
+                <p class="text-sm text-gray-400">提升内容创作效率与质量</p>
+              </div>
+            </a>
+
+            <!-- AI图像工具 -->
+            <a
+              href="ai-image-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-image"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI图像工具</h4>
+                <p class="text-sm text-gray-400">文本生成图像及图像编辑</p>
+              </div>
+            </a>
+
+            <!-- AI视频工具 -->
+            <a
+              href="ai-video-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-video"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI视频工具</h4>
+                <p class="text-sm text-gray-400">智能视频创作与编辑工具</p>
+              </div>
+            </a>
+
+            <!-- AI音频工具 -->
+            <a
+              href="ai-audio-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-microphone-alt"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI音频工具</h4>
+                <p class="text-sm text-gray-400">语音合成与音频处理工具</p>
+              </div>
+            </a>
+
+            <!-- AI办公工具 -->
+            <a
+              href="ai-office-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-briefcase"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI办公工具</h4>
+                <p class="text-sm text-gray-400">提升办公效率的智能工具</p>
+              </div>
+            </a>
+
+            <!-- AI设计工具 -->
+            <a
+              href="ai-design-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-palette"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI设计工具</h4>
+                <p class="text-sm text-gray-400">革新设计流程的智能工具</p>
+              </div>
+            </a>
+
+            <!-- AI对话聊天 -->
+            <a
+              href="ai-chatbot-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-comments"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI对话聊天</h4>
+                <p class="text-sm text-gray-400">智能对话和聊天机器人</p>
+              </div>
+            </a>
+
+            <!-- AI编程工具 -->
+            <a
+              href="ai-coding-tools.html"
+              class="category-card flex p-4 bg-gray-800 bg-opacity-50 rounded-lg hover:bg-opacity-70 transition"
+            >
+              <span class="text-3xl ai-tools mr-3"
+                ><i class="fas fa-code"></i
+              ></span>
+              <div>
+                <h4 class="font-bold">AI编程工具</h4>
+                <p class="text-sm text-gray-400">加速代码开发的智能工具</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- 精选工具推荐 -->
+        <h3 class="text-2xl font-bold mb-4">
+          <span class="ai-tools">精选工具</span>
+          <span class="text-white">推荐</span>
+        </h3>
+
+        <div class="grid-container">
+          <!-- AI Audio Tools Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-blue-400">
+                <i class="fas fa-microphone-alt"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ai-tools mr-2">AI工具</span>
+                <span class="text-gray-400">· 合集</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">AI音频工具合集</h3>
+              <p class="text-gray-300 mb-4">
+                探索顶级AI语音生成和音频处理工具，提升您的音频内容创作效率和质量...
+              </p>
+              <a
+                href="ai-audio-tools.html"
+                class="inline-block ai-tools hover:underline"
+                >查看合集 →</a
+              >
+            </div>
+          </div>
+
+          <!-- AI Image Tools Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-blue-400">
+                <i class="fas fa-image"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ai-tools mr-2">AI工具</span>
+                <span class="text-gray-400">· 合集</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">AI图像生成工具</h3>
+              <p class="text-gray-300 mb-4">
+                最强大的AI图像生成和编辑工具，轻松创建各种高质量视觉内容...
+              </p>
+              <a href="ai-image-tools.html" class="inline-block ai-tools hover:underline"
+                >即将推出 →</a
+              >
+            </div>
+          </div>
+
+          <!-- LLM Tools Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-blue-400">
+                <i class="fas fa-robot"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ai-tools mr-2">AI工具</span>
+                <span class="text-gray-400">· 合集</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">大语言模型工具</h3>
+              <p class="text-gray-300 mb-4">
+                最先进的大语言模型和文本生成工具，用于内容创作、分析和对话...
+              </p>
+              <a href="#" class="inline-block ai-tools hover:underline"
+                >即将推出 →</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- E-commerce Section -->
+      <section id="ecommerce" class="mb-16">
+        <h2 class="text-3xl font-bold mb-8">
+          <span class="ecommerce">跨境</span>
+          <span class="text-white">电商</span>
+        </h2>
+
+        <div class="mb-8">
+          <div class="tech-card rounded-lg p-6 neon-border-purple">
+            <p class="text-lg mb-4">
+              分享跨境电商最新趋势、平台攻略和营销策略。从亚马逊到TikTok
+              Shop，掌握全球电商市场的致胜之道。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#亚马逊</span
+              >
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#Shopify</span
+              >
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#TikTok Shop</span
+              >
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#独立站</span
+              >
+              <span
+                class="bg-purple-900 bg-opacity-50 text-purple-300 px-3 py-1 rounded-full text-sm"
+                >#物流供应链</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <!-- Platform Guides Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-purple-400">
+                <i class="fab fa-amazon"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ecommerce mr-2">跨境电商</span>
+                <span class="text-gray-400">· 合集</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">电商平台攻略</h3>
+              <p class="text-gray-300 mb-4">
+                亚马逊、Shopify、TikTok Shop等平台的详细运营指南...
+              </p>
+              <a href="#" class="inline-block ecommerce hover:underline"
+                >即将推出 →</a
+              >
+            </div>
+          </div>
+
+          <!-- Marketing Strategies Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-purple-400">
+                <i class="fas fa-bullhorn"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ecommerce mr-2">跨境电商</span>
+                <span class="text-gray-400">· 合集</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">跨境营销策略</h3>
+              <p class="text-gray-300 mb-4">
+                社交媒体营销、内容营销、付费广告等多渠道营销策略...
+              </p>
+              <a href="#" class="inline-block ecommerce hover:underline"
+                >即将推出 →</a
+              >
+            </div>
+          </div>
+
+          <!-- Logistics and Supply Chain Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div class="h-48 bg-gray-700 flex items-center justify-center">
+              <span class="text-5xl text-purple-400">
+                <i class="fas fa-shipping-fast"></i>
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="ecommerce mr-2">跨境电商</span>
+                <span class="text-gray-400">· 合集</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">物流与供应链</h3>
+              <p class="text-gray-300 mb-4">
+                跨境物流策略、供应链优化、库存管理最佳实践...
+              </p>
+              <a href="#" class="inline-block ecommerce hover:underline"
+                >即将推出 →</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tutorials Section -->
+      <section id="tutorials" class="mb-16">
+        <h2 class="text-3xl font-bold mb-8">
+          <span class="tutorials">视频</span>
+          <span class="text-white">教程</span>
+        </h2>
+
+        <div class="mb-8">
+          <div class="tech-card rounded-lg p-6 neon-border-green">
+            <p class="text-lg mb-4">
+              通过详细的视频教程，掌握AI工具和跨境电商实操技能。从入门到精通，每个视频都是解决实际问题的钥匙。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#工具教程</span
+              >
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#运营技巧</span
+              >
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#营销策略</span
+              >
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#实战案例</span
+              >
+              <span
+                class="bg-green-900 bg-opacity-50 text-green-300 px-3 py-1 rounded-full text-sm"
+                >#数据分析</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <!-- AI Tools Tutorials Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div
+              class="h-48 bg-gray-700 flex items-center justify-center relative"
+            >
+              <span class="text-5xl text-green-400">
+                <i class="fas fa-play-circle"></i>
+              </span>
+              <div
+                class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs"
+              >
+                系列
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="tutorials mr-2">视频教程</span>
+                <span class="text-gray-400">· 合集</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">AI工具实战教程</h3>
+              <p class="text-gray-300 mb-4">
+                详细演示如何使用各种AI工具提升工作效率和内容质量...
+              </p>
+              <a href="#" class="inline-block tutorials hover:underline"
+                >即将推出 →</a
+              >
+            </div>
+          </div>
+
+          <!-- E-commerce Platform Tutorials Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div
+              class="h-48 bg-gray-700 flex items-center justify-center relative"
+            >
+              <span class="text-5xl text-green-400">
+                <i class="fas fa-play-circle"></i>
+              </span>
+              <div
+                class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs"
+              >
+                系列
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="tutorials mr-2">视频教程</span>
+                <span class="text-gray-400">· 合集</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">电商平台入门与进阶</h3>
+              <p class="text-gray-300 mb-4">
+                亚马逊、TikTok Shop等平台操作指南和优化技巧...
+              </p>
+              <a href="#" class="inline-block tutorials hover:underline"
+                >即将推出 →</a
+              >
+            </div>
+          </div>
+
+          <!-- Marketing Case Studies Card -->
+          <div class="tech-card rounded-lg overflow-hidden">
+            <div
+              class="h-48 bg-gray-700 flex items-center justify-center relative"
+            >
+              <span class="text-5xl text-green-400">
+                <i class="fas fa-play-circle"></i>
+              </span>
+              <div
+                class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs"
+              >
+                系列
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm mb-2">
+                <span class="tutorials mr-2">视频教程</span>
+                <span class="text-gray-400">· 合集</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">营销案例解析</h3>
+              <p class="text-gray-300 mb-4">
+                分析成功跨境电商营销案例，拆解关键策略和执行细节...
+              </p>
+              <a href="#" class="inline-block tutorials hover:underline"
+                >即将推出 →</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-8 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+      <div class="container mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <div class="text-2xl font-bold tech-text mb-2">
+              <span class="text-white">兰心</span>
+              <span class="ai-tools">运营</span>
+              <span class="text-white">笔记</span>
+            </div>
+            <p class="text-gray-400 text-sm">探索AI与电商的未来</p>
+          </div>
+          <div class="text-center md:text-right">
+            <p class="text-gray-400 text-sm">
+              &copy; 2023 兰心运营笔记. 保留所有权利
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

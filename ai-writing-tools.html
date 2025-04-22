@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI写作工具 - 兰心运营笔记</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #0cf;
+            --neon-purple: #c0f;
+            --neon-green: #0fc;
+            --dark-bg: #111827;
+            --darker-bg: #0a0f1a;
+            --card-bg: rgba(17, 24, 39, 0.7);
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--darker-bg);
+            color: #e5e7eb;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(12, 170, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(192, 0, 255, 0.1) 0%, transparent 30%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+        }
+        
+        .tool-section {
+            padding: 2rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neon-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-header p {
+            color: #e5e7eb;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .tool-card {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(12, 255, 255, 0.2);
+        }
+        
+        .tool-card:hover::after {
+            opacity: 1;
+        }
+        
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tool-logo {
+            height: 130px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.25rem;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card:hover .tool-logo {
+            background-color: rgba(255, 255, 255, 0.07);
+        }
+        
+        .tool-logo img {
+            max-height: 80%;
+            max-width: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-card:hover .tool-logo img {
+            transform: scale(1.05);
+        }
+        
+        .tool-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .tool-name {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 0.9rem;
+            color: var(--neon-blue);
+            font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
+        .tool-description {
+            margin-bottom: 1.75rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            flex-grow: 1;
+            font-size: 0.95rem;
+        }
+        
+        .tool-link {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--neon-blue), #0077cc);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 119, 204, 0.3);
+        }
+        
+        .tool-link:hover {
+            background: linear-gradient(90deg, #0077cc, var(--neon-blue));
+            box-shadow: 0 4px 12px rgba(0, 119, 204, 0.5);
+        }
+        
+        .tool-link::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .tool-link:hover::after {
+            opacity: 1;
+        }
+        
+        /* 导航相关样式 */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .nav-link.active:after {
+            width: 100%;
+        }
+        
+        /* 下拉菜单 */
+        .group:hover .group-hover\:block {
+            display: block;
+        }
+        
+        /* 卡片样式 */
+        .tech-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            box-shadow: 0 0 15px rgba(12, 255, 255, 0.3);
+        }
+        
+        /* 文字特效 */
+        .tech-text {
+            display: inline-block;
+            position: relative;
+            text-shadow: 0 0 5px rgba(12, 255, 255, 0.7);
+        }
+        
+        /* 动画效果 */
+        @keyframes pulse {
+            0% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.8;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        /* 自适应设计 */
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.25rem;
+            }
+            
+            .tool-logo {
+                height: 110px;
+            }
+            
+            .tool-name {
+                font-size: 1.25rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .tool-logo {
+                height: 100px;
+            }
+            
+            .tool-content {
+                padding: 1.25rem;
+            }
+        }
+        
+        /* 夜间模式适配 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: var(--dark-bg);
+                color: #e5e7eb;
+            }
+            
+            .tool-card {
+                background-color: var(--dark-bg);
+            }
+            
+            .tool-logo {
+                background-color: var(--darker-bg);
+            }
+            
+            .tool-name {
+                color: var(--neon-blue);
+            }
+            
+            .tool-description {
+                color: #d1d5db;
+            }
+            
+            .tool-link {
+                background-color: var(--neon-blue);
+            }
+            
+            .tool-link:hover {
+                background-color: #0056b3;
+            }
+            
+            .nav-link:after {
+                background: var(--neon-blue);
+            }
+            
+            .nav-link:hover:after {
+                background: var(--neon-blue);
+            }
+            
+            .nav-link.active:after {
+                background: var(--neon-blue);
+            }
+            
+            .section-header h2 {
+                color: var(--neon-blue);
+            }
+            
+            .section-header p {
+                color: #d1d5db;
+            }
+        }
+
+        /* 页面布局 */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        /* 面包屑导航 */
+        .breadcrumbs {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .breadcrumbs a {
+            color: #3182ce;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .breadcrumbs a:hover {
+            color: #2c5282;
+            text-decoration: underline;
+        }
+        
+        /* 页面标题样式 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .animate-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #3182ce, #00b5d8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .header-underline {
+            height: 3px;
+            width: 120px;
+            background: linear-gradient(90deg, #3182ce, #00b5d8);
+            margin: 0 auto 1.5rem;
+            animation: widen 1.2s ease-out;
+        }
+        
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes widen {
+            from {
+                width: 0;
+            }
+            to {
+                width: 120px;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header -->
+    <header class="w-full py-4 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="text-3xl font-bold tech-text">
+                        <span class="text-white">兰心</span>
+                        <span style="color: var(--neon-blue);" class="pulse">运营</span>
+                        <span class="text-white">笔记</span>
+                    </a>
+                </div>
+                <nav class="flex flex-wrap space-x-4 md:space-x-6 text-sm md:text-base">
+                    <a href="index.html" class="nav-link text-white">首页</a>
+                    <div class="group relative">
+                        <a href="#" class="nav-link active" style="color: var(--neon-blue); display: flex; align-items: center;">
+                            AI工具
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
+                            <div class="py-1 grid grid-cols-1">
+                                <a href="ai-writing-tools.html" class="px-4 py-2 text-sm text-white bg-gray-800">AI写作工具</a>
+                                <a href="ai-audio-tools.html" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI音频工具</a>
+                                <a href="ai-image-tools.html" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI图像工具</a>
+                                <a href="ai-video-tools.html" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI视频工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI办公工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI设计工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI对话聊天</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI编程工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI搜索引擎</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative">
+                        <a href="#" class="nav-link text-white" style="display: flex; align-items: center;">
+                            跨境电商
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
+                            <div class="py-1">
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">电商平台</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">物流解决方案</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">支付系统</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">营销推广</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative">
+                        <a href="#" class="nav-link text-white" style="display: flex; align-items: center;">
+                            视频教程
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-36 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
+                            <div class="py-1">
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">入门教程</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">进阶教程</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">案例分析</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <a href="#" class="nav-link text-white" style="display: flex; align-items: center;">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                    <div class="relative">
+                        <a href="https://t.zsxq.com/CAfds" target="_blank" class="nav-link" style="color: var(--neon-purple); display: flex; align-items: center; font-weight: 600;">
+                            <i class="fas fa-crown mr-1"></i> 加入会员
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex items-center text-sm text-gray-400">
+            <a href="index.html" class="hover:text-white">首页</a>
+            <span class="mx-2">/</span>
+            <a href="index.html#ai-tools" class="hover:text-white">AI工具</a>
+            <span class="mx-2">/</span>
+            <span style="color: var(--neon-blue);">AI写作工具</span>
+        </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="/">首页</a> &gt; <a href="/tools">工具</a> &gt; <span>AI写作助手</span>
+            </div>
+            
+            <div class="page-header">
+                <h1 class="animate-title">AI写作工具大全</h1>
+                <div class="header-underline"></div>
+                <p class="intro-text">
+                    随着人工智能技术的快速发展，AI写作工具正在彻底改变我们创作内容的方式。无论是撰写文章、编辑文稿、生成创意内容，还是提升写作效率，这些智能助手都能为您提供强大支持。以下是当前市场上最受欢迎的AI写作工具，帮助您在数字时代保持创作优势。
+                </p>
+            </div>
+            
+            <div class="tools-grid">
+                <!-- ChatGPT -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" alt="ChatGPT Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">ChatGPT</h3>
+                        <p class="tool-description">由OpenAI开发的强大对话AI，可协助各类写作任务，包括创意写作、内容创作、文案撰写等。</p>
+                        <a href="https://chat.openai.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Notion AI -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png" alt="Notion AI Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Notion AI</h3>
+                        <p class="tool-description">Notion集成的AI助手，可以协助写作、总结、扩展内容、转换语调，将笔记和文档提升到新水平。</p>
+                        <a href="https://www.notion.so/product/ai" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Claude -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://www.anthropic.com/images/share.jpg" alt="Claude Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Claude</h3>
+                        <p class="tool-description">由Anthropic开发的AI助手，擅长长文本理解与创作，可处理复杂写作任务，提供有思考深度的内容。</p>
+                        <a href="https://claude.ai/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Jasper -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://assets-global.website-files.com/60e5f2de011b86acebc30db7/62b3dff5ae8ee846a95a66c1_Logo.svg" alt="Jasper Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Jasper</h3>
+                        <p class="tool-description">专为营销团队设计的AI内容创作平台，可生成高质量的博客文章、社交媒体内容、广告文案等。</p>
+                        <a href="https://www.jasper.ai/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Copy.ai -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://assets-global.website-files.com/628288c5cd3e8411b90a36a4/629a702f7c5f4d95bb54993e_channelcopy-logo.svg" alt="Copy.ai Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Copy.ai</h3>
+                        <p class="tool-description">帮助撰写各类营销文案的AI工具，包括产品描述、广告文案、电子邮件和社交媒体内容等。</p>
+                        <a href="https://www.copy.ai/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Writesonic -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://writesonic.s3.amazonaws.com/GrowthBar/logo.svg" alt="Writesonic Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Writesonic</h3>
+                        <p class="tool-description">AI文案和内容创作平台，可用于SEO文章、广告文案、产品描述和社交媒体内容的创作。</p>
+                        <a href="https://writesonic.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Rytr -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://rytr.me/static/media/logo.5c658273.svg" alt="Rytr Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Rytr</h3>
+                        <p class="tool-description">经济实惠的AI写作助手，支持多种写作类型和25+种语言，帮助快速创建高质量内容。</p>
+                        <a href="https://rytr.me/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- 墨灵AI -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://static.mokahr.com/moling-website/static/logo/color-logo.png" alt="墨灵AI Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">墨灵AI</h3>
+                        <p class="tool-description">国内领先的AI创作平台，为中文内容创作者提供多种写作模板和助手功能，支持各类写作场景。</p>
+                        <a href="https://www.moling.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Grammarly -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://static.grammarly.com/assets/files/cb6ce17d281d15f2c819035bcd430b0e/grammarly-logo.svg" alt="Grammarly Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Grammarly</h3>
+                        <p class="tool-description">强大的AI写作助手，提供语法检查、拼写修正、语调调整和风格建议，帮助提升写作质量。</p>
+                        <a href="https://www.grammarly.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Wordtune -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://www.wordtune.com/wp-content/uploads/2021/05/wordtune-logo-color.svg" alt="Wordtune Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Wordtune</h3>
+                        <p class="tool-description">AI改写和润色工具，帮助用户重写句子，调整语气和风格，使文字表达更加清晰和有力。</p>
+                        <a href="https://www.wordtune.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- QuillBot -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://assets.quillbot.com/images/quillbot.png" alt="QuillBot Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">QuillBot</h3>
+                        <p class="tool-description">AI改写工具，可以帮助用户重写、摘要和润色文本，提供多种改写模式和语调选项。</p>
+                        <a href="https://quillbot.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- DeepL Write -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://static.deepl.com/img/logo/DeepL_Logo_darkBlue_v2.svg" alt="DeepL Write Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">DeepL Write</h3>
+                        <p class="tool-description">由知名翻译服务DeepL推出的AI写作助手，可帮助用户改进文本的语法、风格和清晰度。</p>
+                        <a href="https://www.deepl.com/write" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="w-full py-8 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="text-2xl font-bold tech-text mb-2">
+                        <span class="text-white">兰心</span>
+                        <span style="color: var(--neon-blue);">运营</span>
+                        <span class="text-white">笔记</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">探索AI与电商的未来</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm">&copy; 2023 兰心运营笔记. 保留所有权利</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

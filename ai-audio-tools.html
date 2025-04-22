@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI音频工具 - 兰心运营笔记</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #0cf;
+            --neon-purple: #c0f;
+            --neon-green: #0fc;
+            --dark-bg: #111827;
+            --darker-bg: #0a0f1a;
+            --card-bg: rgba(17, 24, 39, 0.7);
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--darker-bg);
+            color: #e5e7eb;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(12, 170, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(192, 0, 255, 0.1) 0%, transparent 30%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+        }
+        
+        .tool-section {
+            padding: 2rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neon-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-header p {
+            color: #e5e7eb;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tool-card:hover {
+            box-shadow: 0 0 15px rgba(12, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .tool-logo {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.2);
+            height: 120px;
+        }
+        
+        .tool-logo img {
+            max-height: 80px;
+            max-width: 80%;
+        }
+        
+        .tool-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tool-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .tool-description {
+            color: #d1d5db;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .tool-link {
+            display: inline-block;
+            background: linear-gradient(to right, var(--neon-blue), #0080ff);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        
+        .tool-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* 导航相关样式 */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .nav-link.active:after {
+            width: 100%;
+        }
+        
+        /* 下拉菜单 */
+        .group:hover .group-hover\:block {
+            display: block;
+        }
+        
+        /* 卡片样式 */
+        .tech-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            box-shadow: 0 0 15px rgba(12, 255, 255, 0.3);
+        }
+        
+        /* 文字特效 */
+        .tech-text {
+            display: inline-block;
+            position: relative;
+            text-shadow: 0 0 5px rgba(12, 255, 255, 0.7);
+        }
+        
+        /* 动画效果 */
+        @keyframes pulse {
+            0% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.8;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        /* 自适应设计 */
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header -->
+    <header class="w-full py-4 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="text-3xl font-bold tech-text">
+                        <span class="text-white">兰心</span>
+                        <span style="color: var(--neon-blue);" class="pulse">运营</span>
+                        <span class="text-white">笔记</span>
+                    </a>
+                </div>
+                <nav class="flex flex-wrap space-x-4 md:space-x-6 text-sm md:text-base">
+                    <a href="index.html" class="nav-link text-white">首页</a>
+                    <div class="group relative">
+                        <a href="#" class="nav-link active" style="color: var(--neon-blue); display: flex; align-items: center;">
+                            AI工具
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
+                            <div class="py-1 grid grid-cols-1">
+                                <a href="ai-audio-tools.html" class="px-4 py-2 text-sm text-white bg-gray-800">AI音频工具</a>
+                                <a href="ai-writing-tools.html" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI写作工具</a>
+                                <a href="ai-image-tools.html" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI图像工具</a>
+                                <a href="ai-video-tools.html" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI视频工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI办公工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI设计工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI对话聊天</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI编程工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI搜索引擎</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative">
+                        <a href="#" class="nav-link text-white flex items-center">
+                            跨境电商
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
+                            <div class="py-1">
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">电商平台</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">物流解决方案</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">支付系统</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">营销推广</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative">
+                        <a href="#" class="nav-link text-white flex items-center">
+                            视频教程
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-36 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
+                            <div class="py-1">
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">入门教程</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">进阶教程</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">案例分析</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <a href="#" class="nav-link text-white" style="display: flex; align-items: center;">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                    <div class="relative">
+                        <a href="https://t.zsxq.com/CAfds" target="_blank" class="nav-link" style="color: var(--neon-purple); display: flex; align-items: center; font-weight: 600;">
+                            <i class="fas fa-crown mr-1"></i> 加入会员
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex items-center text-sm text-gray-400">
+            <a href="index.html" class="hover:text-white">首页</a>
+            <span class="mx-2">/</span>
+            <a href="index.html#ai-tools" class="hover:text-white">AI工具</a>
+            <span class="mx-2">/</span>
+            <span style="color: var(--neon-blue);">AI音频工具</span>
+        </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <!-- AI音频工具部分 -->
+        <section id="ai-audio-tools" class="tool-section">
+          <div class="section-header">
+            <h2>AI音频工具</h2>
+            <p>发现最强大的AI语音生成和音频处理工具，提升您的音频内容创作效率和质量</p>
+          </div>
+          
+          <!-- 筛选工具栏 -->
+          <div class="tech-card rounded-lg p-6 mb-8">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between">
+              <h3 class="font-bold text-lg mb-4 lg:mb-0">筛选工具</h3>
+              <div class="flex flex-wrap gap-3">
+                <!-- 工具类型 -->
+                <div class="relative">
+                  <select class="bg-gray-800 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none pr-8">
+                    <option value="">工具类型</option>
+                    <option value="voice-synthesis">语音合成</option>
+                    <option value="voice-cloning">语音克隆</option>
+                    <option value="audio-editing">音频编辑</option>
+                    <option value="track-separation">音轨分离</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                  </div>
+                </div>
+                
+                <!-- 价格 -->
+                <div class="relative">
+                  <select class="bg-gray-800 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none pr-8">
+                    <option value="">价格</option>
+                    <option value="free">免费工具</option>
+                    <option value="freemium">免费增值</option>
+                    <option value="paid">付费工具</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                  </div>
+                </div>
+                
+                <!-- 语言支持 -->
+                <div class="relative">
+                  <select class="bg-gray-800 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none pr-8">
+                    <option value="">语言支持</option>
+                    <option value="chinese">中文支持</option>
+                    <option value="english">英文支持</option>
+                    <option value="multi">多语言支持</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                  </div>
+                </div>
+                
+                <!-- 筛选按钮 -->
+                <button class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-2 px-4 rounded-lg hover:opacity-90">应用筛选</button>
+                <button class="bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-600">重置</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tools-grid">
+            <!-- ElevenLabs卡片 -->
+            <div class="tool-card">
+              <div class="tool-logo">
+                <img src="assets/images/tools/elevenlabs-logo.png" alt="ElevenLabs">
+              </div>
+              <div class="tool-content">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="tool-name">ElevenLabs</h3>
+                  <span class="text-xs bg-purple-900 bg-opacity-70 text-purple-300 px-2 py-1 rounded">免费增值</span>
+                </div>
+                <p class="tool-description">顶级AI语音生成工具，提供超自然的语音合成</p>
+                <div class="flex justify-between items-center mt-auto">
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">多语言</span>
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">语音克隆</span>
+                  </div>
+                  <a href="https://elevenlabs.io/" class="tool-link" target="_blank">访问官网</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 讯飞智作卡片 -->
+            <div class="tool-card">
+              <div class="tool-logo">
+                <img src="assets/images/tools/xunfei-logo.png" alt="讯飞智作">
+              </div>
+              <div class="tool-content">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="tool-name">讯飞智作</h3>
+                  <span class="text-xs bg-purple-900 bg-opacity-70 text-purple-300 px-2 py-1 rounded">免费增值</span>
+                </div>
+                <p class="tool-description">科大讯飞推出的AI配音平台，支持多场景配音</p>
+                <div class="flex justify-between items-center mt-auto">
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">中文优化</span>
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">场景配音</span>
+                  </div>
+                  <a href="https://peiyin.xunfei.cn/" class="tool-link" target="_blank">访问官网</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Fish Audio卡片 -->
+            <div class="tool-card">
+              <div class="tool-logo">
+                <img src="assets/images/tools/fishaudio-logo.png" alt="Fish Audio">
+              </div>
+              <div class="tool-content">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="tool-name">Fish Audio</h3>
+                  <span class="text-xs bg-green-900 bg-opacity-70 text-green-300 px-2 py-1 rounded">免费工具</span>
+                </div>
+                <p class="tool-description">免费的AI语音克隆和文本转语音平台</p>
+                <div class="flex justify-between items-center mt-auto">
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">中英双语</span>
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">快速生成</span>
+                  </div>
+                  <a href="https://fish.audio/zh-CN/" class="tool-link" target="_blank">访问官网</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Murf AI卡片 -->
+            <div class="tool-card">
+              <div class="tool-logo">
+                <img src="assets/images/tools/murf-logo.png" alt="Murf AI">
+              </div>
+              <div class="tool-content">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="tool-name">Murf AI</h3>
+                  <span class="text-xs bg-amber-900 bg-opacity-70 text-amber-300 px-2 py-1 rounded">付费工具</span>
+                </div>
+                <p class="tool-description">专业级AI配音平台，适合商业视频和演示文稿</p>
+                <div class="flex justify-between items-center mt-auto">
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">商业级</span>
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">多种语言</span>
+                  </div>
+                  <a href="https://murf.ai/" class="tool-link" target="_blank">访问官网</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Descript卡片 -->
+            <div class="tool-card">
+              <div class="tool-logo">
+                <img src="assets/images/tools/descript-logo.png" alt="Descript">
+              </div>
+              <div class="tool-content">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="tool-name">Descript</h3>
+                  <span class="text-xs bg-purple-900 bg-opacity-70 text-purple-300 px-2 py-1 rounded">免费增值</span>
+                </div>
+                <p class="tool-description">集语音转文本、音频编辑和AI语音合成于一体的平台</p>
+                <div class="flex justify-between items-center mt-auto">
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">全能型</span>
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">编辑功能</span>
+                  </div>
+                  <a href="https://www.descript.com/" class="tool-link" target="_blank">访问官网</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- LALAL.AI卡片 -->
+            <div class="tool-card">
+              <div class="tool-logo">
+                <img src="assets/images/tools/lalalai-logo.png" alt="LALAL.AI">
+              </div>
+              <div class="tool-content">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="tool-name">LALAL.AI</h3>
+                  <span class="text-xs bg-purple-900 bg-opacity-70 text-purple-300 px-2 py-1 rounded">免费增值</span>
+                </div>
+                <p class="tool-description">AI音轨分离工具，可提取人声和各类乐器</p>
+                <div class="flex justify-between items-center mt-auto">
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">音轨分离</span>
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">高质量</span>
+                  </div>
+                  <a href="https://www.lalal.ai/" class="tool-link" target="_blank">访问官网</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- PlayHT卡片 -->
+            <div class="tool-card">
+              <div class="tool-logo">
+                <img src="assets/images/tools/playht-logo.png" alt="Play.ht">
+              </div>
+              <div class="tool-content">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="tool-name">Play.ht</h3>
+                  <span class="text-xs bg-purple-900 bg-opacity-70 text-purple-300 px-2 py-1 rounded">免费增值</span>
+                </div>
+                <p class="tool-description">AI文本转语音平台，提供800多种声音和100多种语言</p>
+                <div class="flex justify-between items-center mt-auto">
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">多语种</span>
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">API接口</span>
+                  </div>
+                  <a href="https://play.ht/" class="tool-link" target="_blank">访问官网</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Resemble AI卡片 -->
+            <div class="tool-card">
+              <div class="tool-logo">
+                <img src="assets/images/tools/resemble-logo.png" alt="Resemble AI">
+              </div>
+              <div class="tool-content">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="tool-name">Resemble AI</h3>
+                  <span class="text-xs bg-amber-900 bg-opacity-70 text-amber-300 px-2 py-1 rounded">付费工具</span>
+                </div>
+                <p class="tool-description">企业级语音合成平台，提供高度自然的AI语音</p>
+                <div class="flex justify-between items-center mt-auto">
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">企业级</span>
+                    <span class="text-xs bg-blue-900 bg-opacity-50 text-blue-300 px-2 py-1 rounded">情感控制</span>
+                  </div>
+                  <a href="https://www.resemble.ai/" class="tool-link" target="_blank">访问官网</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 工具比较部分 -->
+          <div class="mt-16">
+            <h3 class="text-2xl font-bold mb-6" style="color: var(--neon-blue);">AI音频工具比较</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full tech-card">
+                <thead>
+                  <tr class="bg-gray-800">
+                    <th class="py-3 px-4 text-left">工具名称</th>
+                    <th class="py-3 px-4 text-left">价格</th>
+                    <th class="py-3 px-4 text-left">中文支持</th>
+                    <th class="py-3 px-4 text-left">主要功能</th>
+                    <th class="py-3 px-4 text-left">最适合用户</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-t border-gray-700">
+                    <td class="py-3 px-4">ElevenLabs</td>
+                    <td class="py-3 px-4">免费有限额度<br>付费套餐$5/月起</td>
+                    <td class="py-3 px-4">支持</td>
+                    <td class="py-3 px-4">自然语音合成、语音克隆、情感控制</td>
+                    <td class="py-3 px-4">视频创作者、博客作者、内容营销人员</td>
+                  </tr>
+                  <tr class="border-t border-gray-700">
+                    <td class="py-3 px-4">讯飞智作</td>
+                    <td class="py-3 px-4">有免费额度<br>付费套餐起价低</td>
+                    <td class="py-3 px-4">专为中文优化</td>
+                    <td class="py-3 px-4">多场景配音、多人物角色、自定义风格</td>
+                    <td class="py-3 px-4">中文内容创作者、短视频制作者</td>
+                  </tr>
+                  <tr class="border-t border-gray-700">
+                    <td class="py-3 px-4">Fish Audio</td>
+                    <td class="py-3 px-4">完全免费</td>
+                    <td class="py-3 px-4">支持</td>
+                    <td class="py-3 px-4">语音克隆、文本转语音</td>
+                    <td class="py-3 px-4">预算有限的创作者、学生</td>
+                  </tr>
+                  <tr class="border-t border-gray-700">
+                    <td class="py-3 px-4">Murf AI</td>
+                    <td class="py-3 px-4">免费试用<br>付费套餐$19/月起</td>
+                    <td class="py-3 px-4">有限支持</td>
+                    <td class="py-3 px-4">高质量配音、视频配音、演示文稿配音</td>
+                    <td class="py-3 px-4">商业用户、专业营销团队</td>
+                  </tr>
+                  <tr class="border-t border-gray-700">
+                    <td class="py-3 px-4">LALAL.AI</td>
+                    <td class="py-3 px-4">有免费试用<br>按分钟付费</td>
+                    <td class="py-3 px-4">界面支持</td>
+                    <td class="py-3 px-4">音轨分离、人声提取、乐器分离</td>
+                    <td class="py-3 px-4">音乐制作者、混音师、DJ</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- 使用场景和建议 -->
+          <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- 使用场景 -->
+            <div class="tech-card rounded-lg p-6">
+              <h3 class="text-xl font-bold mb-4" style="color: var(--neon-blue);">AI音频工具适用场景</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-400 mt-1 mr-2"></i>
+                  <span>视频和播客配音：使用AI生成专业的旁白和解说</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-400 mt-1 mr-2"></i>
+                  <span>有声书和文章阅读：将文本内容转换为语音</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-400 mt-1 mr-2"></i>
+                  <span>产品演示和教程：为演示文稿和教学视频添加专业配音</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-400 mt-1 mr-2"></i>
+                  <span>音频内容本地化：将内容翻译成多种语言并配音</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-400 mt-1 mr-2"></i>
+                  <span>音轨处理：分离人声和乐器，进行混音和处理</span>
+                </li>
+              </ul>
+            </div>
+            
+            <!-- 选择建议 -->
+            <div class="tech-card rounded-lg p-6">
+              <h3 class="text-xl font-bold mb-4" style="color: var(--neon-blue);">如何选择合适的AI音频工具</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <i class="fas fa-lightbulb text-blue-400 mt-1 mr-2"></i>
+                  <span><strong>语言需求：</strong>确认工具是否支持你需要的语言，特别是中文音色的自然度</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-lightbulb text-blue-400 mt-1 mr-2"></i>
+                  <span><strong>自然度要求：</strong>试听样例，评估语音的自然程度和情感表达</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-lightbulb text-blue-400 mt-1 mr-2"></i>
+                  <span><strong>预算考虑：</strong>评估免费额度是否足够，付费套餐的性价比</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-lightbulb text-blue-400 mt-1 mr-2"></i>
+                  <span><strong>功能需求：</strong>是否需要语音克隆、情感控制等高级功能</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-lightbulb text-blue-400 mt-1 mr-2"></i>
+                  <span><strong>使用便捷性：</strong>评估工具的界面友好度和学习曲线</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="w-full py-8 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="text-2xl font-bold tech-text mb-2">
+                        <span class="text-white">兰心</span>
+                        <span style="color: var(--neon-blue);">运营</span>
+                        <span class="text-white">笔记</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">探索AI与电商的未来</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm">&copy; 2023 兰心运营笔记. 保留所有权利</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

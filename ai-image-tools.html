@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI图像工具 - 兰心运营笔记</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #0cf;
+            --neon-purple: #c0f;
+            --neon-green: #0fc;
+            --dark-bg: #111827;
+            --darker-bg: #0a0f1a;
+            --card-bg: rgba(17, 24, 39, 0.7);
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--darker-bg);
+            color: #e5e7eb;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(12, 170, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(192, 0, 255, 0.1) 0%, transparent 30%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+        }
+        
+        .tool-section {
+            padding: 2rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neon-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-header p {
+            color: #e5e7eb;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .tool-card {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(12, 255, 255, 0.2);
+        }
+        
+        .tool-card:hover::after {
+            opacity: 1;
+        }
+        
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tool-logo {
+            height: 130px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.25rem;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card:hover .tool-logo {
+            background-color: rgba(255, 255, 255, 0.07);
+        }
+        
+        .tool-logo img {
+            max-height: 80%;
+            max-width: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-card:hover .tool-logo img {
+            transform: scale(1.05);
+        }
+        
+        .tool-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .tool-name {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 0.9rem;
+            color: var(--neon-blue);
+            font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
+        .tool-description {
+            margin-bottom: 1.75rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            flex-grow: 1;
+            font-size: 0.95rem;
+        }
+        
+        .tool-link {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--neon-blue), #0077cc);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 119, 204, 0.3);
+        }
+        
+        .tool-link:hover {
+            background: linear-gradient(90deg, #0077cc, var(--neon-blue));
+            box-shadow: 0 4px 12px rgba(0, 119, 204, 0.5);
+        }
+        
+        .tool-link::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .tool-link:hover::after {
+            opacity: 1;
+        }
+        
+        /* 导航相关样式 */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .nav-link.active:after {
+            width: 100%;
+        }
+        
+        /* 下拉菜单 */
+        .group:hover .group-hover\:block {
+            display: block;
+        }
+        
+        /* 卡片样式 */
+        .tech-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            box-shadow: 0 0 15px rgba(12, 255, 255, 0.3);
+        }
+        
+        /* 文字特效 */
+        .tech-text {
+            display: inline-block;
+            position: relative;
+            text-shadow: 0 0 5px rgba(12, 255, 255, 0.7);
+        }
+        
+        /* 动画效果 */
+        @keyframes pulse {
+            0% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.8;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        /* 自适应设计 */
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.25rem;
+            }
+            
+            .tool-logo {
+                height: 110px;
+            }
+            
+            .tool-name {
+                font-size: 1.25rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .tool-logo {
+                height: 100px;
+            }
+            
+            .tool-content {
+                padding: 1.25rem;
+            }
+        }
+        
+        /* 页面布局 */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        /* 面包屑导航 */
+        .breadcrumbs {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .breadcrumbs a {
+            color: #3182ce;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .breadcrumbs a:hover {
+            color: #2c5282;
+            text-decoration: underline;
+        }
+        
+        /* 页面标题样式 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .animate-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #3182ce, #00b5d8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .header-underline {
+            height: 3px;
+            width: 120px;
+            background: linear-gradient(90deg, #3182ce, #00b5d8);
+            margin: 0 auto 1.5rem;
+            animation: widen 1.2s ease-out;
+        }
+        
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes widen {
+            from {
+                width: 0;
+            }
+            to {
+                width: 120px;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header -->
+    <header class="w-full py-4 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="text-3xl font-bold tech-text">
+                        <span class="text-white">兰心</span>
+                        <span style="color: var(--neon-blue);" class="pulse">运营</span>
+                        <span class="text-white">笔记</span>
+                    </a>
+                </div>
+                <nav class="flex flex-wrap space-x-4 md:space-x-6 text-sm md:text-base">
+                    <a href="index.html" class="nav-link text-white">首页</a>
+                    <div class="group relative">
+                        <a href="#" class="nav-link active" style="color: var(--neon-blue); display: flex; align-items: center;">
+                            AI工具
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
+                            <div class="py-1 grid grid-cols-1">
+                                <a href="ai-writing-tools.html" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI写作工具</a>
+                                <a href="ai-audio-tools.html" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI音频工具</a>
+                                <a href="ai-image-tools.html" class="px-4 py-2 text-sm text-white bg-gray-800">AI图像工具</a>
+                                <a href="ai-video-tools.html" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI视频工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI办公工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI设计工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI对话聊天</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI编程工具</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">AI搜索引擎</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative">
+                        <a href="#" class="nav-link text-white" style="display: flex; align-items: center;">
+                            跨境电商
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
+                            <div class="py-1">
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">电商平台</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">物流解决方案</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">支付系统</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">营销推广</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative">
+                        <a href="#" class="nav-link text-white" style="display: flex; align-items: center;">
+                            视频教程
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-36 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
+                            <div class="py-1">
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">入门教程</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">进阶教程</a>
+                                <a href="#" class="px-4 py-2 text-sm text-gray-200 hover:bg-gray-800">案例分析</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <a href="#" class="nav-link text-white" style="display: flex; align-items: center;">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                    <div class="relative">
+                        <a href="https://t.zsxq.com/CAfds" target="_blank" class="nav-link" style="color: var(--neon-purple); display: flex; align-items: center; font-weight: 600;">
+                            <i class="fas fa-crown mr-1"></i> 加入会员
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex items-center text-sm text-gray-400">
+            <a href="index.html" class="hover:text-white">首页</a>
+            <span class="mx-2">/</span>
+            <a href="index.html#ai-tools" class="hover:text-white">AI工具</a>
+            <span class="mx-2">/</span>
+            <span style="color: var(--neon-blue);">AI图像工具</span>
+        </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="/">首页</a> &gt; <a href="/tools">工具</a> &gt; <span>AI图像助手</span>
+            </div>
+            
+            <div class="page-header">
+                <h1 class="animate-title">AI图像工具大全</h1>
+                <div class="header-underline"></div>
+                <p class="intro-text">
+                    AI图像生成技术正在飞速发展，从文本描述生成精美图像、改进现有图片、创造独特艺术作品，都已成为可能。本页面收集了当前最强大的AI图像工具，帮助您挖掘无限创意潜能，打造令人惊艳的视觉内容。
+                </p>
+            </div>
+            
+            <div class="tools-grid">
+                <!-- Midjourney -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://cdn.midjourney.com/00000000-0000-0000-0000-000000000000/headers/home-world.png" alt="Midjourney Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Midjourney</h3>
+                        <p class="tool-description">基于Discord的顶级AI图像生成工具，提供极高质量的艺术风格图像，凭借其出色的质感和细节处理备受好评。</p>
+                        <a href="https://www.midjourney.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- DALL-E -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://openai.com/content/images/2022/01/dall-e-og.jpg" alt="DALL-E Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">DALL-E</h3>
+                        <p class="tool-description">OpenAI开发的AI图像生成系统，可从文本描述创建逼真和创意图像，支持编辑现有图像和扩展图像边界。</p>
+                        <a href="https://openai.com/dall-e-3" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Stable Diffusion -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Stability_AI_logo.svg/440px-Stability_AI_logo.svg.png" alt="Stable Diffusion Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Stable Diffusion</h3>
+                        <p class="tool-description">开源AI图像生成模型，可本地部署运行，支持文本到图像、图像编辑和图像到图像变换，拥有活跃的社区生态。</p>
+                        <a href="https://stability.ai/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Leonardo.ai -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://leonardo.ai/static/shared/logos/logo.svg" alt="Leonardo.ai Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Leonardo.ai</h3>
+                        <p class="tool-description">专为创意专业人士设计的AI创作平台，提供高质量图像生成和自定义模型训练，特别适合游戏和设计行业。</p>
+                        <a href="https://leonardo.ai/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Adobe Firefly -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Adobe_Firefly_logo.svg/1200px-Adobe_Firefly_logo.svg.png" alt="Adobe Firefly Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Adobe Firefly</h3>
+                        <p class="tool-description">Adobe推出的AI创意工具，专注于商业安全创作，与Adobe生态系统深度集成，支持文本到图像、风格转换等功能。</p>
+                        <a href="https://firefly.adobe.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Canva Text to Image -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Canva_Logo.png/1200px-Canva_Logo.png" alt="Canva Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Canva AI图像生成</h3>
+                        <p class="tool-description">集成在Canva设计平台中的AI图像生成功能，无需切换工具即可在设计工作流中创建和编辑AI图像。</p>
+                        <a href="https://www.canva.com/ai-image-generator/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Runway -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://storage.googleapis.com/runway-public/images/branding/wordmark.svg" alt="Runway Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Runway</h3>
+                        <p class="tool-description">AI创意工作室，提供视频和图像生成工具，支持图像扩展、修复和风格转换，特别适合视频创作者和艺术家。</p>
+                        <a href="https://runwayml.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Bing Image Creator -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Bing_Fluent_Logo.svg/2048px-Bing_Fluent_Logo.svg.png" alt="Bing Image Creator Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Bing Image Creator</h3>
+                        <p class="tool-description">微软推出的免费AI图像生成工具，基于DALL-E模型，与Bing搜索和Edge浏览器集成，提供便捷的图像创建体验。</p>
+                        <a href="https://www.bing.com/create" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- 文心一格 -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://yige.baidu.com/api/v1/storage/file/66a56aa63bf1094f0d73620ced45d44d.png" alt="文心一格 Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">文心一格</h3>
+                        <p class="tool-description">百度推出的AI绘画创作平台，提供丰富的中文创作体验，支持多种艺术风格和国风特色，面向中文用户优化。</p>
+                        <a href="https://yige.baidu.com/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- NovelAI -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://novelai.net/logo.png" alt="NovelAI Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">NovelAI</h3>
+                        <p class="tool-description">专注于动漫和插画风格的AI图像生成工具，广受二次元创作者喜爱，提供精细的艺术风格控制和角色创作功能。</p>
+                        <a href="https://novelai.net/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- Lexica -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://lexica.art/logo_full.svg" alt="Lexica Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">Lexica</h3>
+                        <p class="tool-description">Stable Diffusion图像搜索引擎和生成工具，提供海量AI生成图像库和高级提示词搜索，帮助用户找到灵感。</p>
+                        <a href="https://lexica.art/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+                
+                <!-- DreamStudio -->
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <img src="https://dreamstudio.ai/assets/logo.svg" alt="DreamStudio Logo">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-name">DreamStudio</h3>
+                        <p class="tool-description">由Stability AI官方推出的Stable Diffusion图像生成工具，提供用户友好的界面和最新模型更新，适合各类创作需求。</p>
+                        <a href="https://dreamstudio.ai/" target="_blank" class="tool-link">访问网站</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="w-full py-8 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="text-2xl font-bold tech-text mb-2">
+                        <span class="text-white">兰心</span>
+                        <span style="color: var(--neon-blue);">运营</span>
+                        <span class="text-white">笔记</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">探索AI与电商的未来</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm">&copy; 2023 兰心运营笔记. 保留所有权利</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 
